@@ -1,0 +1,51 @@
+﻿@typeparam TElement
+ 
+@if (Elements == null)
+{
+    <SnniperCarregando />
+}
+else if (Elements.Any())
+{
+    <div class="col-lg-12 col-md-12">
+        <div class="card user-profile-list">
+            <div class="card-header">
+                <h5>@Titulo</h5>
+                <div class="card-header-right">
+                    <div class="btn-group card-option">
+                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="feather icon-more-horizontal"></i>
+                        </button>
+                        <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                            <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
+                            <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="dt-responsive table-responsive">
+                    @ChildContent
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="col-lg-12 col-md-12">
+        <div class="card ">
+            <div class="card-body">
+                <p>Nenhum registro encontrado.</p>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public List<TElement> Elements { get; set; }
+    [Parameter]
+    public string Titulo { get; set; }
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}

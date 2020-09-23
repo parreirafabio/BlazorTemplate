@@ -1,0 +1,25 @@
+﻿@page "/counter"
+<div class="pcoded-main-container">
+    <div class="pcoded-content">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Counter</h5>
+            </div>
+            <div class="card-body">
+                <p>Current count: @currentCount</p>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}

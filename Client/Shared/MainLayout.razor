@@ -1,0 +1,30 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime jsRuntime
+@*@inject IAuthService authService*@
+@inject HttpClient http
+@inject NavigationManager navigation
+<NavMenu />
+<NavMenuTopo />
+<!-- [ Main Content ] start -->
+
+@Body
+@*<Spinner />
+<ToastContainer />*@
+@code{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+
+            await jsRuntime.InvokeVoidAsync("loadScript", "assets/js/pcoded.min.js");
+            await jsRuntime.InvokeVoidAsync("loadScript", "assets/js/horizontal-menu.js");
+
+        }
+        // await NotificationManager();
+    }
+}
+
+
+@code{
+
+}

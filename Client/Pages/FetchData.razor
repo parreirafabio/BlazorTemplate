@@ -1,0 +1,61 @@
+@page "/fetchdata"
+@using BlazorTemplate.Shared
+@inject HttpClient Http
+@inject IJSRuntime jsRuntime
+
+<div class="pcoded-main-container">
+    <div class="pcoded-content">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+            <li class="breadcrumb-item"><span>Forecast</span></li>
+        </ul>
+        <div class="row">            
+            <ListaGenerica Elements="forecasts" Titulo="Lista de Temperaturas">
+                <table class="table nowrap table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Temp. (C)</th>
+                            <th>Temp. (F)</th>
+                            <th>Summary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var forecast in forecasts)
+                        {
+                            <tr>
+                                <td>@forecast.Date.ToShortDateString()</td>
+                                <td>@forecast.TemperatureC</td>
+                                <td>@forecast.TemperatureF</td>
+                                <td>@forecast.Summary</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </ListaGenerica>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private List<WeatherForecast> forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetFromJsonAsync<List<WeatherForecast>>("WeatherForecast");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await jsRuntime.InvokeVoidAsync("CarregaTabela");
+            await base.OnAfterRenderAsync(firstRender);
+        }
+        else
+        {
+            await jsRuntime.InvokeVoidAsync("ReCarregaTabela");
+        }
+    }
+}
